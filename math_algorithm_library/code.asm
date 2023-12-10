@@ -1,7 +1,10 @@
 ; code.asm
+
 .CODE
-asmMain PROC
+
+_asmMain PROC
 	; your code will go here
 	ret
-asmMain ENDP
+_asmMain ENDP
+
 END
