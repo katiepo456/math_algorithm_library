@@ -8,8 +8,8 @@ _getMatrix   PROTO                                 ; C++ function prototypes
 _printMatrix PROTO
 
 .DATA
-matrixA DWORD 5,1,6,2,8,4,7,3,12
-matrixB DWORD 5,1,6,2,8,4,7,3,12
+matrixA DWORD 1,2,3,4,5,6,7,8,9
+matrixB DWORD 16,17,12,14,7,6,2,8,9
 matrixS DWORD 0,0,0,0,0,0,0,0,0
 
 n QWORD 3                                          ; size of nxn matrix
