@@ -16,7 +16,7 @@ n QWORD 3                                          ; size of nxn matrix
 i QWORD ?                                          ; counters for looping through matrices
 j QWORD ?
 
-sum  BYTE "Sum Matrix: ",0                         ; title for the resulting matrix
+sum BYTE "Sum Matrix: ",0                          ; title for the resulting matrix
 
 .CODE											   ; code program segment
 

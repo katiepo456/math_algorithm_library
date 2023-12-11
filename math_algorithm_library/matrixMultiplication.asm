@@ -8,7 +8,7 @@ _getMatrix   PROTO                                 ; C++ function prototypes
 _printMatrix PROTO
 
 .DATA
-matrixA DWORD 5,1,6,2,8,4,7,3,12
+matrixA DWORD 2,7,9,4,1,6,7,5,4
 matrixB DWORD 5,1,6,2,8,4,7,3,12
 matrixP DWORD 0,0,0,0,0,0,0,0,0
 
