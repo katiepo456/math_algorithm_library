@@ -16,7 +16,9 @@ n QWORD 3                                          ; size of nxn matrix
 i QWORD ?                                          ; counters for looping through matrices
 j QWORD ?
 
-sum BYTE "Sum Matrix: ",0                          ; title for the resulting matrix
+titleA BYTE "Matrix A: ",0
+titleB BYTE "Matrix B: ",0
+sum    BYTE "A+B Matrix: ",0                       ; title for the resulting matrix
 
 .CODE											   ; code program segment
 
@@ -60,6 +62,14 @@ _matrixAdd PROC                                    ; _matrixAdd function declara
         cmp i, r10                                 ; check for end of columns
         jne outer
 
+    lea rcx, matrixA							   ; pass matrix to print to console
+	lea rdx, titleA                                ; pass title of matrix
+    call _printMatrix
+
+    lea rcx, matrixB							   ; pass matrix to print to console
+	lea rdx, titleB                                ; pass title of matrix
+    call _printMatrix
+    
     lea rcx, matrixS							   ; pass matrix to print to console
 	lea rdx, sum                                   ; pass title of resulting matrix
     call _printMatrix
