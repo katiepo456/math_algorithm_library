@@ -1,4 +1,4 @@
-# Math Algorithm Library
+# Math/Algorithm Library
 
 Over the course of the semester, we have implemented various mathematical equations as well as basic instructions in assembly. Continuing on this theme, we created a Mathematical/Algorithmic Library that consists of matrix operations and sorting algorithms. The inspiration for this idea stemmed from everyone’s favorite classes in college: Linear Algebra and Data Structures & Algorithms. With prior knowledge and understanding of these topics, we set out to implement these algorithms in assembly.
 
