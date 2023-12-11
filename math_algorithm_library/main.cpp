@@ -57,7 +57,9 @@ extern "C" int** _getMatrix() {
 
 */
 int main() {
+	cout << "MATRIX ADDITION" << endl;
 	_matrixAdd();
+	cout << "\n--------------------\nMATRIX MULTIPLICATION" << endl;
 	_matrixMultiplication();
 	
 	return 0;

@@ -17,7 +17,9 @@ i QWORD ?                                          ; counters for looping throug
 j QWORD ?
 k QWORD ?
 
-mult BYTE "Product Matrix: ",0                     ; title for the resulting matrix
+titleA BYTE "Matrix A: ",0
+titleB BYTE "Matrix B: ",0
+mult   BYTE "A*B Matrix: ",0                       ; title for the resulting matrix
 
 .CODE											   ; code program segment
 
@@ -83,6 +85,14 @@ _matrixMultiplication PROC                          ; _matrixMult function decla
         cmp i, r10
         jne outer
 
+    lea rcx, matrixA							   ; pass matrix to print to console
+	lea rdx, titleA                                ; pass title of matrix
+    call _printMatrix
+
+    lea rcx, matrixB							   ; pass matrix to print to console
+	lea rdx, titleB                                ; pass title of matrix
+    call _printMatrix
+    
     lea rcx, matrixP							   ; pass matrix to print to console
 	lea rdx, mult                                  ; pass title of resulting matrix
     call _printMatrix
