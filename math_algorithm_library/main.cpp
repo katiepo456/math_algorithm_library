@@ -21,14 +21,14 @@ Rather than the 2D array appearing as one long string of numbers, this
 function formats the matrix and its values accordingly for improved 
 visualization (Kathryn James). */
 extern "C" void _printMatrix(int matrix[3][3], char* str) {
-	int i, j, k, r1 = 3, c2 = 3;
+	int i, j, k, n = 3;
 
 	cout << endl << str << endl;
-	for (i = 0; i < r1; ++i)
-		for (j = 0; j < c2; ++j)
+	for (i = 0; i < n; ++i)
+		for (j = 0; j < n; ++j)
 		{
 			cout << " " << matrix[i][j];
-			if (j == c2 - 1)
+			if (j == n - 1)
 				cout << endl;
 		}
 	return;
