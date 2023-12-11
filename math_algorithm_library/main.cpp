@@ -13,10 +13,13 @@ using namespace std;
 extern "C" void _asmMain();
 extern "C" void _matrixAdd();
 extern "C" void _matrixMult();
+extern "C" void _matrixMultiplication();
 
-/*
-
-*/
+/* By receiving a matrix and its corresponding title, this function outputs 
+the resulting matrix to the console by properly displaying its rows/columns.
+Rather than the 2D array appearing as one long string of numbers, this
+function formats the matrix and its values accordingly for improved 
+visualization (Kathryn James). */
 extern "C" void _printMatrix(int matrix[3][3], char* str) {
 	int i, j, k, r1 = 3, c2 = 3;
 
@@ -31,11 +34,10 @@ extern "C" void _printMatrix(int matrix[3][3], char* str) {
 	return;
 }
 
-/*
-
-*/
+/* This function randomly generates a 2D array (a square matrix) to be used
+for the matrix operations. It takes no arguments, but randomly generates the
+values in the matrix based on the programmer-defined size (Kathryn James). */
 extern "C" int** _getMatrix() {
-	//int N = 2 + (rand() % 10);		// possibly randomize size of the square matrix?
 	int N = 3, random;
 	int** arr = new int* [N];
 	srand(time(0));
@@ -43,7 +45,7 @@ extern "C" int** _getMatrix() {
 	for (int i = 0; i < N; ++i) {
 		arr[i] = new int[N];
 		for (int j = 0; j < N; ++j) {
-			random = 1 + (rand() % 10);
+			random = 1 + (rand() % 10);  // generate random numbers between 1-10
 			arr[i][j] = random;
 			cout << arr[i][j] << endl;
 		}
@@ -55,7 +57,8 @@ extern "C" int** _getMatrix() {
 
 */
 int main() {
-	_asmMain();
+	_matrixAdd();
+	_matrixMultiplication();
 	
 	return 0;
 }

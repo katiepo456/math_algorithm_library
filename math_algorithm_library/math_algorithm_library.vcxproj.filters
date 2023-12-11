@@ -23,7 +23,10 @@
     <MASM Include="code.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="matrix.asm">
+    <MASM Include="matrixAddition.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="matrixMultiplication.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>
