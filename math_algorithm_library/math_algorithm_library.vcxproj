@@ -137,6 +137,8 @@
     </MASM>
     <MASM Include="InsertionSort.asm" />
     <MASM Include="SelectionSort.asm" />
+    <MASM Include="matrixAddition.asm" />
+    <MASM Include="matrixMultiplication.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
