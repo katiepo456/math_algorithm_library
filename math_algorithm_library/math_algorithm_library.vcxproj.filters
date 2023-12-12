@@ -20,7 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="code.asm">
+    <MASM Include="BubbleSort.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="SelectionSort.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="InsertionSort.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>
