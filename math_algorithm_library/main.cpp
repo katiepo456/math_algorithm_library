@@ -7,6 +7,8 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
+#include <vector>
+#include <random>
 
 using namespace std;
 
@@ -14,6 +16,10 @@ extern "C" void _asmMain();
 extern "C" void _matrixAdd();
 extern "C" void _matrixMult();
 extern "C" void _matrixMultiplication();
+
+extern "C" void asmBubbleSort();
+extern "C" void asmSelectionSort();
+extern "C" void asmInsertionSort();
 
 /* By receiving a matrix and its corresponding title, this function outputs 
 the resulting matrix to the console by properly displaying its rows/columns.
@@ -53,14 +59,42 @@ extern "C" int** _getMatrix() {
 	return arr;
 }
 
-/*
+/*This function prints out the arrays used by the sorts. When the sorts are done, 
+the asm file will call this function which will print a string of numbers to the console.
+(Jaden Cypes) */
+extern "C" void _printNum(int arr[10]) {
+	for (int i = 0; i < 10; i++) {
+		cout << " " << arr[i];
+	}
+	cout << endl;
+}
 
-*/
 int main() {
+	// create the random device engine
+	random_device rd;
+	mt19937 rng(rd());
+	uniform_int_distribution<int> dist(1, 100);
+
+	// create the array
+	vector<int> vec;
+
+	// declare size of vector and fill it with numbers
+	const int vectorSize = 100;
+	for (int i = 0; i < vectorSize; ++i) {
+		int randNum = dist(rng);
+		vec.push_back(randNum);
+	}
+	//for (int num : vec) {  // To see the array before it was sorted
+		// cout << num << " "; } (Jaden Cypes)
+	
 	cout << "MATRIX ADDITION" << endl;
 	_matrixAdd();
 	cout << "\n--------------------\nMATRIX MULTIPLICATION" << endl;
 	_matrixMultiplication();
-	
+  
+  asmBubbleSort();
+	asmSelectionSort();
+	asmInsertionSort();
+
 	return 0;
 }
