@@ -91,9 +91,12 @@ int main() {
 	_matrixAdd();
 	cout << "\n--------------------\nMATRIX MULTIPLICATION" << endl;
 	_matrixMultiplication();
-  
-  asmBubbleSort();
+	
+	cout << "BubbleSort" << endl;
+	asmBubbleSort();
+	cout << "SelectionSort" << endl;
 	asmSelectionSort();
+	cout << "Insertion Sort" << endl;
 	asmInsertionSort();
 
 	return 0;
