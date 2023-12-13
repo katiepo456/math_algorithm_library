@@ -55,7 +55,7 @@
 
 \noindent \textbf{EXPLANATIONS}
 \noindent \\ \textbf{I/O Details}
-\\To display the resulting matrix in a readable format, we implemented the following function in a linked C++ file. After the matrix operation completed either its addition or multiplication, the following function would be called to print the matrix product or sum. Figure 1 shows the function needed to loop through the elements of the 2D array (matrix). It accounts for the number of rows and columns of the result and displays the resulting matrix accordingly. The function also receives a byte string as a parameter to use as a title for the result; Figures 2 and 3 show the declaration of the strings that would later be passed along to the C++ function as a second parameter for the title.
+\\To display the resulting matrix in a readable format, we implemented the following function in a linked C++ file. After the matrix operation completed either its addition or multiplication, the following function would be called to print the matrix product or sum. Figure 1.1 shows the function needed to loop through the elements of the 2D array (matrix). It accounts for the number of rows and columns of the result and displays the resulting matrix accordingly. The function also receives a byte string as a parameter to use as a title for the result; Figures 2 and 3 show the declaration of the strings that would later be passed along to the C++ function as a second parameter for the title.
 \begin{center} \begin{tabular}{c} \begin{lstlisting}
 extern "C" void _printMatrix(int matrix[3][3], char* str) {
 	int i, j, k, n = 3;
@@ -71,7 +71,7 @@ extern "C" void _printMatrix(int matrix[3][3], char* str) {
 	return;
 }
 \end{lstlisting} \end{tabular} \end{center}
-\begin{center}\textit{Figure 1: main.cpp}\end{center}
+\begin{center}\textit{Figure 1.1: main.cpp}\end{center}
 \begin{center} \begin{tabular}{c} \begin{lstlisting}
 sum BYTE "Sum Matrix: ",0        ; title for the resulting matrix
 \end{lstlisting} \end{tabular} \end{center}
@@ -80,9 +80,37 @@ sum BYTE "Sum Matrix: ",0        ; title for the resulting matrix
 mult BYTE "Product Matrix: ",0   ; title for the resulting matrix
 \end{lstlisting} \end{tabular} \end{center}
 \begin{center}\textit{Figure 3: matrixMultiplication.asm}\end{center}
+For the sorting algorithms, the linked C++ file included a function to print out the arrays. After the completed sorts happen, the function shown in Figure 1.2 would be called at the bottom in the asm files to print to the console. The function would take the array and loop through each element, printing each to the console with a space in between. After the loop, a newline is printed so that the printed arrays do not mix.
+\begin{center} \begin{tabular}{c} \begin{lstlisting}
+extern "C" void _printNum(int arr[10]) {
+	for (int i = 0; i < 10; i++) {
+		cout << " " << arr[i];
+	}
+	cout << endl;
+}
+\end{lstlisting} \end{tabular} \end{center}
+\begin{center}\textit{Figure 1.2: main.cpp}\end{center}
+To create an array with a large undetermined size, filled with random numbers, it was decided to use a vector as it is flexible with adjusting its size. As well as creating a random\_device to make the random numbers. Using these two together made an ideal array to be sorted. 
+\begin{center} \begin{tabular}{c} \begin{lstlisting}
+	// create the random device engine
+	random_device rd;
+	mt19937 rng(rd());
+	uniform_int_distribution<int> dist(1, 100);
+
+	// create the array
+	vector<int> vec;
+
+	// declare size of vecotr and fill it with numbers
+	const int vectorSize = 100;
+	for (int i = 0; i < vectorSize; ++i) {
+		int randNum = dist(rng);
+		vec.push_back(randNum);
+	}
+\end{lstlisting} \end{tabular} \end{center}
+\begin{center}\textit{Figure 1.3: main.cpp}\end{center}
 
 \noindent \\ \textbf{Matrix Operations: Addition and Multiplication}
-\\The two matrix operations that were implemented in this project include addition and multiplication. These functions were entirely written in assembly with the result then being passed to the C++ function \_printMatrix shown in Figure 1. Matrix addition can only be performed on matrices of the same size; each matrix must have the same number of rows and the same number of columns. For matrix multiplication, the number of columns on the first matrix must equal the number of rows on the second matrix. For the sake of simplicity, the implementation of these operations only works on square matrices of nxn size; the number of rows must match the number of columns.\\
+\\The two matrix operations that were implemented in this project include addition and multiplication. These functions were entirely written in assembly with the result then being passed to the C++ function \_printMatrix shown in Figure 1.1. Matrix addition can only be performed on matrices of the same size; each matrix must have the same number of rows and the same number of columns. For matrix multiplication, the number of columns on the first matrix must equal the number of rows on the second matrix. For the sake of simplicity, the implementation of these operations only works on square matrices of nxn size; the number of rows must match the number of columns.\\
 \begin{itemize}
 \item Matrix addition was implemented in assembly based on the C++ implementation from Figure 4. By using a nested for loop, the entries in the matrices are cycled through with each corresponding element in matrix A and matrix B being added together; the sum of the two elements is then stored in the corresponding location in the resulting matrix. The assembly implementation loads the two matrices into the rsi and rdi registers and performs matrix addition by looping through all of the elements, finding the sum of the corresponding elements between A and B, and storing the sum in its respective entry in the resulting matrix.
 \end{itemize}
@@ -107,6 +135,61 @@ mult BYTE "Product Matrix: ",0   ; title for the resulting matrix
 \end{lstlisting} \end{tabular} \end{center}
 \begin{center}\textit{Figure 5: C++ Implementation of Matrix Multiplication}\end{center}
 
+\noindent \\ \textbf{Sorting Algorithms: Bubble, Selection, Insertion}
+\\The sorting algorithms are entirely written in assembly with programmer-defined arrays. There is an included \_printNum C++ function to outprint the arrays. The goal was to use a much bigger vector array.\\
+\begin{itemize}
+\item Bubble Sort was implemented in assembly based on the C++ implementation shown in Figure 6. Using a nested for loop, both loops will use the length of the array to cycle through each element. The inner loop makes the comparisons while the outer loop runs the inner loop over and over until the array is sorted. The assembly implementation compares two elements next to each other from left to right. If the one on the left is bigger than the right, the elements will swap. If not, the comparison will skip to the next pair of elements. In the assembly implementation, the array address is loaded in rsi and the length into rcx. The rax and rbx registers are used in the comparison then rax is used to exchange the values in the array. 
+\end{itemize}
+\begin{center} \begin{tabular}{c} \begin{lstlisting}
+    void bubbleSort(int array[], const int length) {
+        int i, k;
+        for (i = 0; i < length - 1; i++) { // loop through the array
+            for (k = 0; k < length - i - 1; k++)  {
+                if (array[k] > array[k + 1]) { // comparing in the second loop
+                    swap(array[k], array[k + 1]); 
+                }   
+            }
+        }
+    }
+\end{lstlisting} \end{tabular} \end{center}
+\begin{center}\textit{Figure 6: C++ Implementation of Bubble Sort}\end{center}
+\begin{itemize}
+\item Selection Sort was implemented in assembly based on the C++ implementation shown in Figure 7. Using a nested for loop, the array length is used to cycle through and pick the smallest element and place it into a sorted portion of the array. Then the smallest element would be changed to the next element considered the smallest of the unsorted portion. In assembly, the array length and address would be loaded into rcx and rsi.  Other registers were used to keep track of the min element such as rdi or keep track of how many comparisons to make in rdx. 
+\end{itemize}
+\begin{center} \begin{tabular}{c} \begin{lstlisting}
+    void selectionSort(int array[], const int length) {
+        int i, k, minElement;
+        for (i = 0; i < (length - 1); i++) {
+            minElement = i; // to hold the smallest element at a time
+            for (k = i + 1; k < length; k++){
+                if (array[k] < array[minElement])
+                    minElement = k; // changing the minElement
+            }
+            if (minElement != i)
+                swap(array[minElement], array[i]);
+        }
+    }
+\end{lstlisting} \end{tabular} \end{center}
+\begin{center}\textit{Figure 7: C++ Implementation of Selection Sort}\end{center}
+\begin{itemize}
+\item Insertion Sort was implemented in assembly based on this C++ implementation. The sort is supposed to divide the array into two parts, sorted and unsorted. Therefore in this implementation, the idea of using registers as i and j, rax and rbx in this case. Then with rcx as the length of the array, and used as the counter for the loops, it could be used as the “key” during comparisons. The variable current represents this key, and in assembly, the rcx register would add rsi and rbx or rax to get to the current values being compared or swapped. 
+\end{itemize}
+\begin{center} \begin{tabular}{c} \begin{lstlisting}
+void insertionSort(int array[], const int length) {
+        int i, j;
+        int current; //for comparing when shifting
+        for (i = 1; i < length; i++) {
+            current = array[i]; // continuing to move current along
+           j = i - 1;
+            while (j >= 0 && array[j] > current) { 
+                array[k + 1] = array[k];
+                j = j - 1;
+            }
+            array[j + 1] = current;
+        }
+    }
+\end{lstlisting} \end{tabular} \end{center}
+\begin{center}\textit{Figure 8: C++ Implementation of Insertion Sort}\end{center}
 
 \noindent \\ \textbf{CHALLENGES AND SOLUTIONS}
 \noindent \\ \textbf{File Confusion}
@@ -119,7 +202,7 @@ mult BYTE "Product Matrix: ",0   ; title for the resulting matrix
 \item Matrices function in C++ as 2D arrays; however, assembly treats multidimensional arrays as one long array. We would be unable to access the element of the matrix as [\textit{row}][\textit{column}], but rather as the $n^{\text{th}}$ element. This posed the challenge of finding the correct index number.
 \end{itemize}
 \centerline{\includegraphics[scale=2]{images/matricesinmemory.png}}
-\begin{center}\textit{Figure 6: Visual Representation of Matrices in Memory}\end{center}
+\begin{center}\textit{Figure 9: Visual Representation of Matrices in Memory}\end{center}
 \begin{itemize}
 \item To access an element of the matrix as the $n^{\text{th}}$ element rather than [\textit{row}][\textit{column}], we did the following: multiply the entry location by the number of rows and then add the column number. This makes $a_{\text{21}}$ in the matrix become the $7^{\text{th}}$ element in the array.
 \end{itemize}
@@ -132,7 +215,7 @@ mult BYTE "Product Matrix: ",0   ; title for the resulting matrix
 \item When implementing the matrix addition, it would occasionally send the program into an infinite loop. Upon debugging and searching for the problem, we found that the constant that we had declared for the size of the array was being overwritten in memory. This variable n was used in the comparisons for the for loops, so when it was overwritten the program continued endlessly. Figure 7 shows the progression of the size variable in memory until it gets overwritten as zero. To avoid this problem, we stored the variable in a register that would not be used elsewhere in the program (r10). This way we do not have to worry about the counter being overwritten in its memory location. Now when the comparison is performed at the end of the loop, the counter i or j is compared to the value of n now residing in the r10 register.
 \end{itemize}
 \centerline{\includegraphics[scale=2]{images/countervalueoverwrite.png}}
-\begin{center}\textit{Figure 7: Counter Value Overwrite}\end{center}
+\begin{center}\textit{Figure 10: Counter Value Overwrite}\end{center}
 
 \noindent \\ \textbf{Back-to-Back Matrix Operations}
 \begin{itemize}
@@ -161,7 +244,12 @@ extern "C" int** _getMatrix() {
 	return arr;
 }
 \end{lstlisting} \end{tabular} \end{center}
-\begin{center}\textit{Figure 8: main.cpp}\end{center}
+\begin{center}\textit{Figure 11: main.cpp}\end{center}
+
+\noindent \\ \textbf{Swapping Elements of Arrays} 
+\begin{itemize}
+\item A recurring problem that ultimately proceeded to continue after finishing work on the project was the problem of swapping elements in an array. After getting the solution to accessing the value in an element of an array, the problem of exchanging or swapping the elements appeared. For some reason, the commands, xchg or even trying to swap manually using a temp variable did not manage to correctly exchange the values contained in the elements.  Unfortunately this was not solved at the end, and resulted in the sorts not being able to truly sort. 
+\end{itemize}
 
 \noindent \\ \textbf{Scope}
 \begin{itemize}
@@ -172,7 +260,9 @@ extern "C" int** _getMatrix() {
 \noindent \\ \textbf{VISUALIZATIONS}
 \\A sample of the console output after performing all the sorting algorithms and matrix operations.\\
 \centerline{\includegraphics[scale=0.5]{images/matrixoperations.png}}
-\begin{center}\textit{Figure 9: Console Output Window for Matrix Operations}\end{center}
+\begin{center}\textit{Figure 12: Console Output Window for Matrix Operations}\end{center}
+\centerline{\includegraphics[scale=0.73]{Sortsoutput.png}}
+\begin{center}\textit{Figure 13: Console Output Window for Sorting Algorithms}\end{center}
 
 
 \newpage
@@ -181,6 +271,7 @@ extern "C" int** _getMatrix() {
 \item “C++ Program to Add Two Matrix Using Multi-Dimensional Arrays.” Programiz, \url{www.programiz.com/cpp-programming/examples/add-matrix}. Accessed 11 Dec. 2023.
 \item “C++ Program to Multiply Two Matrix Using Multi-Dimensional Arrays.” Programiz, \url{www.programiz.com/cpp-programming/examples/matrix-multiplication}.
 \item “Declaring and Defining an Array and Matrix in Assembly?” Stack Overflow, 2013, \url{https://stackoverflow.com/questions/17203771/declaring-and-defining-an-array-and-matrix-in-assembly}. Accessed 11 Dec. 2023.
+\item “Exchange Instructions.” Exchange Instructions (IA-32 Assembly Language Reference Manual), Oracle Corp, 2010, \url{docs.oracle.com/cd/E19455-01/806-3773/6jct9o0bb/index.html.}
 \item GeeksforGeeks. “Selection Sort - Data Structure and Algorithm Tutorials.” GeeksforGeeks, 31 Jan. 2014, \url{www.geeksforgeeks.org/selection-sort/}.
 \item GeeksforGeeks. “Bubble Sort - Data Structure and Algorithm Tutorials.” GeeksforGeeks, 2 Feb. 2014, \url{www.geeksforgeeks.org/bubble-sort/}.
 \item GeeksforGeeks. “Insertion Sort - Data Structure and Algorithm Tutorials.” GeeksforGeeks, 7 Mar. 2013, \url{www.geeksforgeeks.org/insertion-sort/}.
